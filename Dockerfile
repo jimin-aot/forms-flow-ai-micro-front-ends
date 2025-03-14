@@ -62,7 +62,7 @@ FROM nginx:alpine
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # Copy built files from builder
-# COPY --from=builder /app/forms-flow-admin/dist /usr/share/nginx/html/forms-flow-admin
+COPY --from=builder /app/forms-flow-admin/dist /usr/share/nginx/html/forms-flow-admin
 COPY --from=builder /app/forms-flow-components/dist /usr/share/nginx/html/forms-flow-components
 COPY --from=builder /app/forms-flow-integration/dist /usr/share/nginx/html/forms-flow-integration
 COPY --from=builder /app/forms-flow-nav/dist /usr/share/nginx/html/forms-flow-nav
