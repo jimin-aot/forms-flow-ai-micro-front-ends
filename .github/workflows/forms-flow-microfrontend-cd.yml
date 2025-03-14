@@ -1,16 +1,25 @@
-name: forms-flow-rsbcservice-CD-to-registry
+name: forms-flow-microfrontend-cd
+
 on:
   workflow_dispatch:
   push:
     branches:
-      - rsbc/7.0.0
+      - '**'
+      # - rsbc/7.0.0
     paths:
-      - "forms-flow-rsbcservice/**"
+      - "forms-flow-admin/**"
+      - "forms-flow-components/**"
+      - "forms-flow-integration/**"
+      - "forms-flow-nav/**"
+      - "forms-flow-service/**"
+      - "forms-flow-theme/**"
       - "VERSION"
+
 defaults:
   run:
     shell: bash
-    working-directory: ./forms-flow-rsbcservice
+    working-directory: ./
+
 jobs:
   build:
     name: build-and-push-image-to-dockerhub
@@ -18,10 +27,10 @@ jobs:
     strategy:
       matrix:
         include:
-          - image: formsflow/forms-flow-microfrontend
-            context: forms-flow-rsbcservice
+          - image: jiminaot/forms-flow-microfrontend
+            context: .
             dockerfile: Dockerfile
-            name: forms-flow-rsbcservice
+            name: forms-flow-microfrontend
     permissions:
       contents: read
       packages: write
