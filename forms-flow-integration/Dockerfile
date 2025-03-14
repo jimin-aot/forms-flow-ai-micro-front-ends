@@ -1,12 +1,12 @@
 # base image
-FROM node:16.20.1-alpine as build-stage
+FROM node:16.20.1-alpine AS build-stage
 
 # set working directory
 WORKDIR /forms-flow-integration/app
- 
+
 
 # add `/app/node_modules/.bin` to $PATH
-ENV PATH /forms-flow-integration/app/node_modules/.bin:$PATH
+ENV PATH=/forms-flow-integration/app/node_modules/.bin:$PATH
 
 RUN apk update && apk upgrade && \
     apk add --no-cache bash git openssh
@@ -23,7 +23,7 @@ COPY . /forms-flow-integration/app/
 RUN npm run build:webpack
 
 
-FROM nginx:1.15.2-alpine as production-stage
+FROM nginx:1.15.2-alpine AS production-stage
 
 # set label for image
 LABEL Name="formsflow"

@@ -3,10 +3,10 @@ FROM node:16.20.1-alpine AS build-stage
 
 # set working directory
 WORKDIR /forms-flow-rsbcservice/app
- 
+
 
 # add `/app/node_modules/.bin` to $PATH
-ENV PATH /forms-flow-rsbcservice/app/node_modules/.bin:$PATH
+ENV PATH=/forms-flow-rsbcservice/app/node_modules/.bin:$PATH
 
 RUN apk update && apk upgrade && \
     apk add --no-cache bash git openssh
