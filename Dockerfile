@@ -12,13 +12,20 @@ COPY forms-flow-rsbcservice /app/forms-flow-rsbcservice
 COPY forms-flow-service /app/forms-flow-service
 COPY forms-flow-theme /app/forms-flow-theme
 
-RUN npm install --prefix forms-flow-admin && npm run build --prefix forms-flow-admin
-RUN npm install --prefix forms-flow-components && npm run build --prefix forms-flow-components
-RUN npm install --prefix forms-flow-integration && npm run build --prefix forms-flow-integration
-RUN npm install --prefix forms-flow-nav && npm run build --prefix forms-flow-nav
-RUN npm install --prefix forms-flow-rsbcservice && npm run build --prefix forms-flow-rsbcservice
-RUN npm install --prefix forms-flow-service && npm run build --prefix forms-flow-service
-RUN npm install --prefix forms-flow-theme && npm run build --prefix forms-flow-theme
+# Install all dependencies before building to avoid redundant installations
+RUN npm install --legacy-peer-deps
+
+# Fix TypeScript issues in react-i18next
+RUN npm install --prefix forms-flow-admin @types/i18next --legacy-peer-deps
+
+# Build each microfrontend
+RUN npm run build --prefix forms-flow-admin
+RUN npm run build --prefix forms-flow-components
+RUN npm run build --prefix forms-flow-integration
+RUN npm run build --prefix forms-flow-nav
+RUN npm run build --prefix forms-flow-rsbcservice
+RUN npm run build --prefix forms-flow-service
+RUN npm run build --prefix forms-flow-theme
 
 # Compress JavaScript files
 RUN find /app -name '*.js' -exec gzip -k {} \;
@@ -38,8 +45,6 @@ COPY --from=builder /app/forms-flow-rsbcservice/dist /usr/share/nginx/html/forms
 COPY --from=builder /app/forms-flow-service/dist /usr/share/nginx/html/forms-flow-service
 COPY --from=builder /app/forms-flow-theme/dist /usr/share/nginx/html/forms-flow-theme
 
-# Serve gzipped JS files
-RUN find /usr/share/nginx/html -name '*.js' -exec gzip -k {} \;
-
+# Expose Nginx port
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
