@@ -7,14 +7,14 @@ on:
       - '**'
       - 'feature/remove-s3-dependency'
       # - rsbc/7.0.0
-    paths:
-      - "forms-flow-admin/**"
-      - "forms-flow-components/**"
-      - "forms-flow-integration/**"
-      - "forms-flow-nav/**"
-      - "forms-flow-service/**"
-      - "forms-flow-theme/**"
-      - "VERSION"
+    # paths:
+    #   - "forms-flow-admin/**"
+    #   - "forms-flow-components/**"
+    #   - "forms-flow-integration/**"
+    #   - "forms-flow-nav/**"
+    #   - "forms-flow-service/**"
+    #   - "forms-flow-theme/**"
+    #   - "VERSION"
 
 defaults:
   run:
