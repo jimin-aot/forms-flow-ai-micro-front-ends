@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - '**'
+      - 'feature/remove-s3-dependency'
       # - rsbc/7.0.0
     paths:
       - "forms-flow-admin/**"
