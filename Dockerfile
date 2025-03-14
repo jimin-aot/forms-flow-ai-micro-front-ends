@@ -3,6 +3,37 @@ FROM node:18-alpine AS builder
 # Set working directory
 WORKDIR /app
 
+# Copy package.json and package-lock.json for each microfrontend before running npm install
+COPY forms-flow-admin/package.json forms-flow-admin/
+COPY forms-flow-admin/package-lock.json forms-flow-admin/
+
+COPY forms-flow-components/package.json forms-flow-components/
+COPY forms-flow-components/package-lock.json forms-flow-components/
+
+COPY forms-flow-integration/package.json forms-flow-integration/
+COPY forms-flow-integration/package-lock.json forms-flow-integration/
+
+COPY forms-flow-nav/package.json forms-flow-nav/
+COPY forms-flow-nav/package-lock.json forms-flow-nav/
+
+COPY forms-flow-rsbcservice/package.json forms-flow-rsbcservice/
+COPY forms-flow-rsbcservice/package-lock.json forms-flow-rsbcservice/
+
+COPY forms-flow-service/package.json forms-flow-service/
+COPY forms-flow-service/package-lock.json forms-flow-service/
+
+COPY forms-flow-theme/package.json forms-flow-theme/
+COPY forms-flow-theme/package-lock.json forms-flow-theme/
+
+# Install dependencies for each microfrontend
+RUN npm install --prefix forms-flow-admin --legacy-peer-deps
+RUN npm install --prefix forms-flow-components --legacy-peer-deps
+RUN npm install --prefix forms-flow-integration --legacy-peer-deps
+RUN npm install --prefix forms-flow-nav --legacy-peer-deps
+RUN npm install --prefix forms-flow-rsbcservice --legacy-peer-deps
+RUN npm install --prefix forms-flow-service --legacy-peer-deps
+RUN npm install --prefix forms-flow-theme --legacy-peer-deps
+
 # Copy source code and install dependencies
 COPY forms-flow-admin /app/forms-flow-admin
 COPY forms-flow-components /app/forms-flow-components
@@ -11,12 +42,6 @@ COPY forms-flow-nav /app/forms-flow-nav
 COPY forms-flow-rsbcservice /app/forms-flow-rsbcservice
 COPY forms-flow-service /app/forms-flow-service
 COPY forms-flow-theme /app/forms-flow-theme
-
-# Install all dependencies before building to avoid redundant installations
-RUN npm install --legacy-peer-deps
-
-# Fix TypeScript issues in react-i18next
-RUN npm install --prefix forms-flow-admin @types/i18next --legacy-peer-deps
 
 # Build each microfrontend
 RUN npm run build --prefix forms-flow-admin
