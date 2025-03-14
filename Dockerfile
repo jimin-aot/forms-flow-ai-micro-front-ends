@@ -26,7 +26,7 @@ COPY forms-flow-theme/package.json forms-flow-theme/
 COPY forms-flow-theme/package-lock.json forms-flow-theme/
 
 # Install dependencies for each microfrontend
-RUN npm install --prefix forms-flow-admin --legacy-peer-deps
+# RUN npm install --prefix forms-flow-admin --legacy-peer-deps
 RUN npm install --prefix forms-flow-components --legacy-peer-deps
 RUN npm install --prefix forms-flow-integration --legacy-peer-deps
 RUN npm install --prefix forms-flow-nav --legacy-peer-deps
@@ -44,7 +44,7 @@ COPY forms-flow-service /app/forms-flow-service
 COPY forms-flow-theme /app/forms-flow-theme
 
 # Build each microfrontend
-RUN npm run build --prefix forms-flow-admin
+# RUN npm run build --prefix forms-flow-admin
 RUN npm run build --prefix forms-flow-components
 RUN npm run build --prefix forms-flow-integration
 RUN npm run build --prefix forms-flow-nav
@@ -62,7 +62,7 @@ FROM nginx:alpine
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # Copy built files from builder
-COPY --from=builder /app/forms-flow-admin/dist /usr/share/nginx/html/forms-flow-admin
+# COPY --from=builder /app/forms-flow-admin/dist /usr/share/nginx/html/forms-flow-admin
 COPY --from=builder /app/forms-flow-components/dist /usr/share/nginx/html/forms-flow-components
 COPY --from=builder /app/forms-flow-integration/dist /usr/share/nginx/html/forms-flow-integration
 COPY --from=builder /app/forms-flow-nav/dist /usr/share/nginx/html/forms-flow-nav
