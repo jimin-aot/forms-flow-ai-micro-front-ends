@@ -53,8 +53,7 @@ RUN npm run build --prefix forms-flow-service || true
 RUN npm run build --prefix forms-flow-theme || true
 
 # Compress JavaScript files
-RUN find /app -name '*.js' -exec gzip -9 -k {} \; \
-  && find /app -name '*.gz' -exec rename 's/\.gz$/.gz.js/' {} \;
+RUN find /app -name '*.js' -exec sh -c 'gzip -9 -c "$1" > "${1%.js}.gz.js"' _ {} \;
 
 # Use Nginx to serve the static files
 FROM nginx:alpine
